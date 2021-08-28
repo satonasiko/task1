@@ -1,0 +1,22 @@
+body {
+    background-color: gray;
+}
+
+table {
+    width: 500px;
+    height: 500px;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border: 1px solid gray;
+}
+
+table th {
+    width: 50px;
+    background-color: #ffa500;
+    text-align: center;
+}
+
+table td{
+    width: 50px;
+    text-align: right;
+}

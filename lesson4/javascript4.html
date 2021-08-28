@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript4</title>
+    <style>
+    #stalker {
+      position: fixed;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: red;
+    }
+    </style>
+</head>
+<body>
+<div id = 'stalker'></div>
+    <script>
+        var mX = 0;//マウスカーソルの座標
+        var mY = 0;
+        var nX = 0;//ストーカーの座標
+        var nY = 0;
+        var stalker = document.getElementById("stalker");
+        function getMouseXY(e)
+        {
+            mX = e.pageX;
+            mY = e.pageY;
+            console.log("X:"+mX+" Y:"+mY);
+        }
+        document.onmousemove=getMouseXY;
+        
+        setInterval(function() {
+            nX += Math.sign(mX - nX) * 3;
+            nY += Math.sign(mY - nY) * 3;
+            // if (mX < nX) {
+            //     nX += -3; 
+            // } else {
+            //     nX += 3; 
+            // }
+            // nX += (mX < nX) ? -3: 3; // 三項演算子
+            stalker.style.left = nX + 'px';
+            stalker.style.top = nY + 'px';
+         }, 200);
+         
+//         function animation() {
+//             setTimeout(animation, 200);
+//             nX += Math.sign(mX - nX) * 3;
+//             nY += Math.sign(mY - nY) * 3;
+//             // if (mX < nX) {
+//             //     nX += -3; 
+//             // } else {
+//             //     nX += 3; 
+//             // }
+//             // nX += (mX < nX) ? -3: 3; // 三項演算子
+//             stalker.style.left = nX + 'px';
+//             stalker.style.top = nY + 'px';
+//         }
+//         setTimeout(animation, 200);
+//         setInterval(animation, 200);
+         
+    </script>
+</body>
+</html>

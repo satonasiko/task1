@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="UTF-8">
+<title>ユーザクラスの作成</title>
+<style>
+#hoge thead th { background: green; color: white }
+#hoge tbody tr td:nth-of-type(n-1) { text-align: right; }
+</style>
+<body>
+<table border="1" id="hoge">
+  <thead>
+    <tr><th>生徒 <th>国語 <th>数学 <th>理科 <th>社会 <th>英語 <th>合計値 <th>ランク
+  <tbody>
+</table>
+
+<script>
+const
+  data = [
+    ["Aさん", 80, 70, 70, 50, 60],
+    ["Bさん", 60, 70, 40, 80, 60],
+    ["Cさん", 60, 70, 70, 60, 60],
+    ["Dさん", 80, 40, 40, 70, 70],
+    ["Eさん", 70, 70, 70, 60, 70],
+  ],
+
+  sum = (a, b)=> a + b,
+  order = (a, b)=> b[6] - a[6], // 合計点で大きい順
+//  order = (a, b)=> a[6] !== b[6] ? a[6] < b[6]: false,
+  order2 = (a, b)=> a[8] - b[8], // ソート前の配列番号で小さい順
+  cell = (r, c) => (r.insertCell ().textContent = c, r),
+  row = (t, r) => (r.reduce (cell, t.insertRow ()), t);
+
+//合計値を計算し配列の最後に追加、ついでに成績順と連番も追加
+data.forEach ((rec, idx) => rec.push (rec.slice (1).reduce (sum), 0, idx));
+
+//成績順で並び替え
+data.sort (order);
+//成績順の番号を付加
+data.forEach ((rec, i)=> rec[7] = i + 1);
+//元に戻す
+data.sort (order2);
+//連番は捨てる
+data.forEach (rec=> rec.pop ());
+
+//表を生成
+data.reduce (row, document.querySelector ('#hoge tbody'));
+
+</script>

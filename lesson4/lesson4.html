@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript(4)</title>
+    <style>
+        #stalker {
+            pointer-events: none;
+            position: fixed;
+            width: 16px;
+            height: 16px;
+            background: red;
+            border-radius: 50%;
+            transform: translate(0,0);
+            transition: transform 3s;
+            transition-timing-function: ease-out;
+            z-index: 999;
+        }   
+    </style>
+</head>
+<body>
+<div id="stalker"></div>
+<script>
+const stalker = document.getElementById('stalker'); 
+
+document.addEventListener('mousemove', function (e) {
+    stalker.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
+});
+</script>
+</body>
+</html> 

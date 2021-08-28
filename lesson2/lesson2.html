@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>九九</title>
+    <style>
+        body {
+            background-color: grey;
+        }
+        
+        .container {
+          margin: 0 auto;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        .border {
+          border-collapse: collapse;
+          border: 2px solid grey;
+        }
+        
+        th {
+          width: 50px;
+          background-color: orange;
+          text-align: center;
+          font-size: 200%;
+        }
+        
+        td {
+          width: 50px;
+          background-color: white;
+          text-align: right;
+          font-size: 200%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <table class="border" border="1">
+      <script>
+        //行を作る
+        document.write('<tr>');
+        document.write('<th></th>');
+        for(var i = 1; i <= 9; i++){
+          document.write('<th>'+ i +'</th>');
+        }
+        document.write('</tr>');
+
+        //列を作る
+        for(var j = 1; j <= 9; j++){
+          document.write('<tr>');
+          document.write('<th>' + j + '</th>');       
+          for(var k = 1; k <= 9; k++){
+            document.write('<td>'+ j*k +'</td>');   //j*kで、tdタグの中を表示
+          }
+          document.write('</tr>');
+        }
+      </script>
+    </table>
+    </div>
+</body>
+</html>

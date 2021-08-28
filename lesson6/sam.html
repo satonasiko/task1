@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>javascriptで入力,計算できるテーブル(表)</title>
+<style type="text/css">
+     /*テーブルCSS Firefox でborderが表示されなかったりする事の対策を込みで。*/
+#editTbl{
+   border-collapse: separate; /* 枠線の表示方法  間隔をあけて表示 */
+   border-spacing: 0; /* 隣合うセルのボーダーにできた隙間の幅を指定 */
+   border-top: 1px solid #b0c4de; /* 枠線 borderプロパティ: 太さ 種類 色 */
+   border-right: 1px solid #b0c4de;
+      }
+#editTbl th,td{
+    padding: 5px 15px;
+    border-bottom: 1px solid #b0c4de;
+    border-left: 1px solid #b0c4de;
+     }
+#editTbl th{
+   color: #000;
+   background: #d7ffd7;
+     }
+#editTbl td{
+  text-align: right;
+    }
+#editTbl p{
+  margin: 0; /* contenteditable属性 IE対策 */
+    }
+#editTbl span{
+  padding-left:1px; /* firefoxキャレット位置調整 */
+  color: #f02406;
+   }
+</style>
+<script type="text/javascript">
+        /***   入力できるテーブル<table>セルの初期設定   ***/
+var flg=0; // 入力値判定フラッグ
+window.onload = function(){
+var myTbl = document.getElementById('editTbl');// ID名から要素を参照<table id="ID名">
+var len=editTbl.rows[1].cells.length; // 列数, セルへの参照はrowsのcellsコレクション
+var Td = myTbl.getElementsByTagName('td'); // myTbl内の td要素のリスト(NodeList)
+  for(var i=0; i<Td.length; i++){ // <td>をループ
+   Td[i].setAttribute('id','td'+i); // ID名を設定
+    Td[i].onclick =function(){if(flg==1){return} // 半角数値でなければ
+     eDit(this.id); // onclickで 'eDit'を実行
+         }
+ 	}
+  function eDit(id){  // クリックしたセルに 入力領域作成
+   cellNum=document.getElementById(id).cellIndex; // 何列目か
+    if(len-1==cellNum){alert('この列は入力できません。'); return} // もし最後の列なら
+     var Td = document.getElementsByTagName('td');
+      var Spn = document.createElement('span'); // span要素 生成
+           Spn.setAttribute('contenteditable','true')// contenteditable属性を付加
+	      Spn.setAttribute('id','Spn' + id); //ID名を付加
+	     Td[id].innerHTML=""; // Td[id]の中を空に
+          Td[id].appendChild(Spn); // SpnをTd[id]に追加 これで入力可能になる
+	   Spn.focus(); // カーソルを合わせる 
+	  Spn.onblur = function(){ bLur(id);  // フォーカスが外れたら
+		}
+	   }
+function bLur(id){
+  var Spn = document.getElementById('Spn' + id);
+  var str=Spn.innerText;str=Spn.textContent; // Spn の値
+   if(str.match(/[^0-9 . -]|[¥s]+/)||str==""){ flg=1; // 入力チェック
+    alert("半角数値を入れてください。"); 
+     eDit(id); return;} // 半角数値でなければ 再入力
+   flg=0; Td[id].innerHTML=str; // Td[id]に Spnの値を入れる
+	}
+   }
+     /*** 入力できるテーブル<table>,セルの初期設定 ここまで  ***/
+
+        /* 各行のセルの合計値 算出 */
+function calcTbl() {
+var myTbl = document.getElementById('editTbl');
+ for(var i=1;i< myTbl.rows.length;i++){ // <tr>をループ（1行目は,見出し行でスキップ)
+   var num = 0; // セルの値 格納変数
+   var total = 0;// セルの合計値 格納変数 
+ for(var j=1;j< myTbl.rows[i].cells.length-1;j++){ // tr[i]行目のセルの数
+  num=myTbl.rows[i].cells[j].innerHTML; // tr[i]番目行のtd[j] 番目セルの値,取得
+  num = parseFloat(num); // 数値に変換 
+　 num = num *1000;// 小数点問題 (-20.2+20=0.1999～)のような現象を回避
+    total+=num; // 合計値
+      }
+ total = total/1000;
+  myTbl.rows[i].cells[j].innerHTML=total; // 行の末尾のセルに合計値
+   myTbl.rows[i].cells[j].style.color="#cc00ff";
+       }
+    } 
+</script>
+</head>
+<body>
+  <table id="editTbl">
+   <tr>
+<th>-</th><th>理科</th><th>国語</th><th>社会</th><th>算数</th><th>合計</th>
+  </tr><tr>
+<th>鳩島 晴夫</th><td>700</td><td>30</td><td>40.7</td><td>7</td><td></td>
+  </tr><tr>
+<th>阿管 由人</th><td>3</td><td>50</td><td>-50</td><td>7</td><td></td>
+  </tr><tr>
+<th>野山 佳広</th><td>0</td><td>0</td><td>-20.2</td><td>20</td><td></td>
+  </tr>
+ </table>
+<p><button type="button" onclick="calcTbl()">計算</button></p>
+</body>  
+</html>
+入力でき
